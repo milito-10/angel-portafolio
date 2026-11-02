@@ -19,7 +19,10 @@ const works = defineCollection({
       videoUrl: z.string().optional(),
       description: z.string(),
       client: z.string().optional(),
-      date: z.string(),
+      date: z.preprocess(
+        (value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value),
+        z.string(),
+      ),
       published: z.boolean().default(true),
       sample: z.boolean().default(false),
     }),
