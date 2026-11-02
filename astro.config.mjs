@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://angel-portfolio.netlify.app",
+  site: "https://portafolio-de-contenidos.netlify.app",
   image: {
     service: {
       entrypoint: "astro/assets/services/sharp",

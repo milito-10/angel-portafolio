@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="480" viewBox="0 0 52 480">
+  <defs>
+    <linearGradient id="burn" x2="1">
+      <stop stop-color="#ef713b" stop-opacity=".16"/>
+      <stop offset=".38" stop-color="#a43a25" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#1b1815" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="52" height="480" fill="url(#burn)"/>
+  <path d="M3 0v480M39 0v480M50 0v480" stroke="#d7a16d" stroke-opacity=".22"/>
+  <g fill="#191613" stroke="#dc8955" stroke-opacity=".55">
+    <rect x="7" y="16" width="16" height="22" rx="4"/>
+    <rect x="7" y="85" width="16" height="22" rx="4"/>
+    <rect x="7" y="154" width="16" height="22" rx="4"/>
+    <rect x="7" y="223" width="16" height="22" rx="4"/>
+    <rect x="7" y="292" width="16" height="22" rx="4"/>
+    <rect x="7" y="361" width="16" height="22" rx="4"/>
+    <rect x="7" y="430" width="16" height="22" rx="4"/>
+  </g>
+  <g fill="#dc8955" opacity=".8">
+    <path d="m29 47 7 11h-7z"/>
+    <path d="m29 302 7 11h-7z"/>
+  </g>
+  <g fill="#dc7642" font-family="Arial,sans-serif" font-size="7" letter-spacing="1" opacity=".75">
+    <text transform="translate(31 200) rotate(-90)">KODAK 400</text>
+    <text transform="translate(31 350) rotate(-90)">52</text>
+    <text transform="translate(31 465) rotate(-90)">63</text>
+  </g>
+</svg>

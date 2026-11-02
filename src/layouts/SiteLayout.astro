@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { title, description = "Fotografía, retratos y videoclips hechos en Medellín, Colombia.", active, frame = "01 / 024" } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://angel-portfolio.netlify.app");
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -26,19 +26,71 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://angel-portf
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#141210" />
+    <meta name="theme-color" content="#131416" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={`${title} · ANGEL`} />
     <meta property="og:description" content={description} />
+    {active === "inicio" && (
+      <>
+        <script is:inline>
+          if (window.location.pathname === "/" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            try {
+              if (!window.sessionStorage.getItem("angel-intro-seen")) {
+                window.sessionStorage.setItem("angel-intro-seen", "true");
+                document.documentElement.classList.add("intro-pending");
+              }
+            } catch (error) {
+              console.error("No se pudo comprobar el estado de la introducción cinematográfica.", error);
+            }
+          }
+        </script>
+        <style is:inline>
+          html.intro-pending {
+            overflow: hidden;
+          }
+
+          .cinematic-intro {
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            display: none;
+            background: #070707;
+          }
+
+          html.intro-pending .cinematic-intro {
+            display: grid;
+          }
+        </style>
+      </>
+    )}
     <link rel="preload" href={oswaldMediumFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={oswaldSemiboldFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interRegularFont} as="font" type="font/woff2" crossorigin />
     <title>{title} · ANGEL | Fotografía y video en Medellín</title>
   </head>
   <body>
-    <div class="site-wear" aria-hidden="true"></div>
+    {active === "inicio" && (
+      <section
+        class="cinematic-intro"
+        data-cinematic-intro
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cinematic-intro-title"
+      >
+        <div class="cinematic-intro__veil" aria-hidden="true"></div>
+        <div class="cinematic-intro__flicker" aria-hidden="true"></div>
+        <div class="cinematic-intro__content">
+          <div class="cinematic-intro__aperture" aria-hidden="true">
+            <img src="/icon-192.png" width="96" height="96" alt="" />
+          </div>
+          <p class="cinematic-intro__name" id="cinematic-intro-title">ANGEL.</p>
+          <p class="cinematic-intro__frame">ROLL 01 <span aria-hidden="true">·</span> FRAME 001</p>
+        </div>
+        <button class="cinematic-intro__skip" type="button">Saltar intro</button>
+      </section>
+    )}
     <header class="site-header">
       <div class="site-header__inner">
         <a class="wordmark" href="/" aria-label="ANGEL, ir al inicio">ANGEL<span>.</span></a>
@@ -52,7 +104,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://angel-portf
           <a href="/sobre-mi/" class:list={{ "is-active": active === "sobre-mi" }} aria-current={active === "sobre-mi" ? "page" : undefined}>Sobre mí</a>
           <a href="/contacto/" class:list={{ "is-active": active === "contacto" }} aria-current={active === "contacto" ? "page" : undefined}>Contacto</a>
         </nav>
-        <a class="button button--red header-quote" href="/contacto/">Cotizar un proyecto</a>
+        <a class="button button--red header-quote" href="/contacto/"><span class="button__label">Cotizar un proyecto</span></a>
       </div>
     </header>
     <main id="contenido">
@@ -78,6 +130,50 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://angel-portf
         menuButton.setAttribute("aria-expanded", String(!expanded));
         navigation?.classList.toggle("is-open", !expanded);
       });
+
+      const intro = document.querySelector<HTMLElement>("[data-cinematic-intro]");
+      if (intro && document.documentElement.classList.contains("intro-pending")) {
+        const skipButton = intro.querySelector<HTMLButtonElement>(".cinematic-intro__skip");
+        const pageElements = Array.from(document.body.children).filter(
+          (element): element is HTMLElement => element instanceof HTMLElement && element !== intro && element.tagName !== "SCRIPT",
+        );
+        const previousInertStates = pageElements.map((element) => element.inert);
+        pageElements.forEach((element) => {
+          element.inert = true;
+        });
+
+        let finished = false;
+        const finishIntro = () => {
+          if (finished) return;
+          finished = true;
+          window.clearTimeout(introTimeout);
+          document.removeEventListener("keydown", handleIntroKeydown);
+          document.documentElement.classList.remove("intro-pending");
+          document.documentElement.classList.add("intro-closing");
+          pageElements.forEach((element, index) => {
+            element.inert = previousInertStates[index];
+          });
+          document.querySelector<HTMLElement>(".hero__title")?.classList.add("hero__title--arrive");
+          window.setTimeout(() => {
+            document.documentElement.classList.remove("intro-closing");
+            intro.remove();
+          }, 320);
+        };
+        const handleIntroKeydown = (event: KeyboardEvent) => {
+          if (event.key === "Escape") {
+            finishIntro();
+          } else if (event.key === "Tab" && skipButton) {
+            event.preventDefault();
+            skipButton.focus();
+          }
+        };
+        const introTimeout = window.setTimeout(finishIntro, 2200);
+
+        skipButton?.addEventListener("click", finishIntro);
+        intro.addEventListener("click", finishIntro);
+        document.addEventListener("keydown", handleIntroKeydown);
+        skipButton?.focus({ preventScroll: true });
+      }
     </script>
   </body>
 </html>
