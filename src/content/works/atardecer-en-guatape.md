@@ -2,7 +2,7 @@
 title: Cristiano Ronaldo
 category: fotografia
 type: foto
-image: images/diseno.svg
+image: images/logo_angel_fondo_oscuro.png
 description: La última luz del día sobre el paisaje antioqueño. Muestra de
   ejemplo para reemplazar por un trabajo real.
 client: Proyecto personal
