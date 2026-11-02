@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FilmImage from "./FilmImage.astro";
+import { categoryLabels } from "../lib/content";
+
+interface Props {
+  work: CollectionEntry<"works">;
+  featured?: boolean;
+  loading?: "eager" | "lazy";
+}
+
+const { work, featured = false, loading = "lazy" } = Astro.props;
+---
+
+<a
+  class:list={["work-card", featured && "work-card--featured"]}
+  href={`/trabajos/${work.id}/`}
+  data-category={work.data.category}
+>
+  <div class="work-card__image">
+    <FilmImage image={work.data.image} alt="" loading={loading} sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw" />
+    <span class="work-card__film-mark" aria-hidden="true">KODAK 400</span>
+    {work.data.type === "video" && <span class="work-card__play" aria-hidden="true">▶</span>}
+    {work.data.sample && <span class="sample-stamp">MUESTRA</span>}
+    <div class="work-card__caption">
+      <h3>{work.data.title}</h3>
+      <span class="category-pill">{categoryLabels[work.data.category]}</span>
+    </div>
+  </div>
+</a>

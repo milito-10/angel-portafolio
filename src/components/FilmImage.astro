@@ -1,0 +1,54 @@
+---
+import { getImage, Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+  sizes?: string;
+  widths?: number[];
+}
+
+const {
+  image,
+  alt,
+  class: className = "",
+  loading = "lazy",
+  sizes = "(max-width: 720px) 100vw, 50vw",
+  widths = [480, 800, 1200],
+} = Astro.props;
+const responsiveWidths = widths.filter((width) => width <= image.width);
+const outputWidths = responsiveWidths.length ? responsiveWidths : [image.width];
+const blurPlaceholder = image.format === "svg"
+  ? null
+  : await getImage({ src: image, width: Math.min(48, image.width), quality: 25, format: "webp" });
+---
+
+<span class:list={["film-image", className]}>
+  {blurPlaceholder && <img class="film-image__blur" src={blurPlaceholder.src} alt="" aria-hidden="true" width="48" height="48" loading={loading} decoding="async" />}
+  {image.format === "svg" ? (
+    <img class="film-image__main" src={image.src} alt={alt} width={image.width} height={image.height} loading={loading} decoding="async" />
+  ) : (
+    <Picture
+      class="film-image__main"
+      src={image}
+      alt={alt}
+      widths={outputWidths}
+      sizes={sizes}
+      formats={["avif", "webp"]}
+      loading={loading}
+      decoding="async"
+    />
+  )}
+</span>
+
+<script>
+  for (const image of document.querySelectorAll<HTMLImageElement>(".film-image__main img, img.film-image__main")) {
+    const wrapper = image.closest(".film-image");
+    const showImage = () => wrapper?.classList.add("is-loaded");
+    if (image.complete && image.naturalWidth > 0) showImage();
+    else image.addEventListener("load", showImage, { once: true });
+  }
+</script>

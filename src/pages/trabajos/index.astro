@@ -1,0 +1,50 @@
+---
+import WorkCard from "../../components/WorkCard.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { categoryLabels, getPublishedWorks } from "../../lib/content";
+
+const works = await getPublishedWorks();
+const filters = [
+  { value: "todos", label: "Todos" },
+  ...Object.entries(categoryLabels).map(([value, label]) => ({ value, label })),
+];
+---
+
+<SiteLayout title="Trabajos" description="Portafolio de fotografía, retratos, videoclips, eventos y diseño gráfico de Angel." active="trabajos" frame="02 / 017">
+  <div class="page-shell">
+    <header class="page-intro">
+      <div>
+        <span class="eyebrow">Portafolio</span>
+        <h1 class="display-heading brush-heading">Trabajos</h1>
+        <p class="lead">Mis fotos y videos. Filtra por categoría o toca uno para ver los detalles.</p>
+      </div>
+      <p class="archive-note" aria-hidden="true">ARCHIVE / 2026<br />MEDELLÍN, COL.</p>
+    </header>
+    <div class="filters" role="group" aria-label="Filtrar trabajos por categoría">
+      {filters.map((filter, index) => (
+        <button
+          class="filter-button"
+          type="button"
+          data-filter={filter.value}
+          aria-pressed={index === 0 ? "true" : "false"}
+        >{filter.label}</button>
+      ))}
+    </div>
+    <section class="work-grid gallery-grid" aria-label="Galería de trabajos" aria-live="polite">
+      {works.length ? works.map((work, index) => <WorkCard work={work} loading={index < 4 ? "eager" : "lazy"} />) : (
+        <p class="empty-state">Todavía no hay trabajos publicados.</p>
+      )}
+    </section>
+  </div>
+  <script>
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+    const workCards = document.querySelectorAll<HTMLElement>(".work-card[data-category]");
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        const selected = button.dataset.filter;
+        for (const item of filterButtons) item.setAttribute("aria-pressed", String(item === button));
+        for (const card of workCards) card.hidden = selected !== "todos" && card.dataset.category !== selected;
+      });
+    }
+  </script>
+</SiteLayout>

@@ -1,0 +1,83 @@
+---
+import "@fontsource/oswald/400.css";
+import "@fontsource/oswald/500.css";
+import "@fontsource/oswald/600.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import oswaldMediumFont from "@fontsource/oswald/files/oswald-latin-500-normal.woff2";
+import oswaldSemiboldFont from "@fontsource/oswald/files/oswald-latin-600-normal.woff2";
+import interRegularFont from "@fontsource/inter/files/inter-latin-400-normal.woff2";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: "inicio" | "trabajos" | "sobre-mi" | "contacto";
+  frame?: string;
+}
+
+const { title, description = "Fotografía, retratos y videoclips hechos en Medellín, Colombia.", active, frame = "01 / 024" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://angel-portfolio.netlify.app");
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141210" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · ANGEL`} />
+    <meta property="og:description" content={description} />
+    <link rel="preload" href={oswaldMediumFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={oswaldSemiboldFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interRegularFont} as="font" type="font/woff2" crossorigin />
+    <title>{title} · ANGEL | Fotografía y video en Medellín</title>
+  </head>
+  <body>
+    <div class="site-wear" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="wordmark" href="/" aria-label="ANGEL, ir al inicio">ANGEL<span>.</span></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+          <span class="sr-only">Abrir menú</span>
+          <span></span><span></span>
+        </button>
+        <nav class="primary-nav" id="primary-navigation" aria-label="Navegación principal">
+          <a href="/" class:list={{ "is-active": active === "inicio" }} aria-current={active === "inicio" ? "page" : undefined}>Inicio</a>
+          <a href="/trabajos/" class:list={{ "is-active": active === "trabajos" }} aria-current={active === "trabajos" ? "page" : undefined}>Trabajos</a>
+          <a href="/sobre-mi/" class:list={{ "is-active": active === "sobre-mi" }} aria-current={active === "sobre-mi" ? "page" : undefined}>Sobre mí</a>
+          <a href="/contacto/" class:list={{ "is-active": active === "contacto" }} aria-current={active === "contacto" ? "page" : undefined}>Contacto</a>
+        </nav>
+        <a class="button button--red header-quote" href="/contacto/">Cotizar un proyecto</a>
+      </div>
+    </header>
+    <main id="contenido">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <p>© 2026 Angel <span aria-hidden="true">·</span> Medellín</p>
+        <div class="footer-roll" aria-label={`Rollo ${frame.replace(" / ", ", cuadro ")}`}>
+          <span class="barcode" aria-hidden="true"></span>
+          <span>ROLL {frame.split(" / ")[0]}</span>
+          <span class="footer-roll__slash">/</span>
+          <span>FRAME {frame.split(" / ")[1]}</span>
+        </div>
+        <p class="footer-credit">Sitio hecho por <a href="https://kairo-med.netlify.app" target="_blank" rel="noopener noreferrer">Kairo</a></p>
+      </div>
+    </footer>
+    <script>
+      const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+      const navigation = document.querySelector<HTMLElement>("#primary-navigation");
+      menuButton?.addEventListener("click", () => {
+        const expanded = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", String(!expanded));
+        navigation?.classList.toggle("is-open", !expanded);
+      });
+    </script>
+  </body>
+</html>

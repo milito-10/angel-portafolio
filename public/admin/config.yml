@@ -1,0 +1,110 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+media_folder: src/content/works/images
+public_folder: ./images
+
+collections:
+  - name: trabajos
+    label: Trabajos
+    label_singular: Trabajo
+    folder: src/content/works
+    path: "{{slug}}"
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    media_folder: images
+    public_folder: ./images
+    fields:
+      - { label: Título, name: title, widget: string }
+      - label: Categoría
+        name: category
+        widget: select
+        options:
+          - { label: Fotografía, value: fotografia }
+          - { label: Retratos, value: retratos }
+          - { label: Videoclips, value: videoclips }
+          - { label: Eventos, value: eventos }
+          - { label: Diseño gráfico, value: diseno-grafico }
+      - { label: Tipo, name: type, widget: select, options: [foto, video] }
+      - { label: Imagen o miniatura, name: image, widget: image }
+      - { label: Enlace del video (YouTube o Vimeo), name: videoUrl, widget: string, required: false }
+      - { label: Descripción, name: description, widget: text }
+      - { label: Cliente, name: client, widget: string, required: false }
+      - { label: Fecha, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Publicado, name: published, widget: boolean, default: true }
+      - { label: Muestra de ejemplo, name: sample, widget: boolean, default: false }
+
+  - name: ordenes
+    label: Orden de trabajos
+    files:
+      - name: galeria
+        label: Orden de galería
+        file: src/content/data/gallery-order.json
+        media_folder: src/content/data/images
+        public_folder: ./images
+        fields:
+          - label: Trabajos en el orden de la galería
+            name: items
+            widget: list
+            field:
+              label: Trabajo
+              name: work
+              widget: relation
+              collection: trabajos
+              search_fields: [title]
+              value_field: "{{slug}}"
+              display_fields: [title]
+      - name: destacados
+        label: Trabajos destacados
+        file: src/content/data/featured.json
+        media_folder: src/content/data/images
+        public_folder: ./images
+        fields:
+          - label: Trabajos destacados (arrastrar para ordenar)
+            name: items
+            widget: list
+            field:
+              label: Trabajo
+              name: work
+              widget: relation
+              collection: trabajos
+              search_fields: [title]
+              value_field: "{{slug}}"
+              display_fields: [title]
+
+  - name: marcas
+    label: Marcas
+    files:
+      - name: marcas
+        label: Marcas con las que he trabajado
+        file: src/content/data/brands.json
+        media_folder: src/content/data/images
+        public_folder: ./images
+        fields:
+          - label: Marcas (arrastrar para ordenar)
+            name: items
+            widget: list
+            fields:
+              - { label: Nombre, name: name, widget: string }
+              - { label: Logo, name: logo, widget: image }
+              - { label: Enlace, name: link, widget: string, required: false }
+
+  - name: ajustes
+    label: Ajustes
+    files:
+      - name: sitio
+        label: Textos y datos de contacto
+        file: src/content/data/site-settings.json
+        media_folder: src/content/data/images
+        public_folder: ./images
+        fields:
+          - { label: WhatsApp (código de país + número), name: whatsappNumber, widget: string }
+          - { label: Instagram, name: instagramUrl, widget: string }
+          - { label: Título principal, name: heroTitle, widget: string }
+          - { label: Subtítulo principal, name: heroSubtitle, widget: text }
+          - { label: Biografía, name: bio, widget: text }
+          - { label: Retrato, name: portrait, widget: image }

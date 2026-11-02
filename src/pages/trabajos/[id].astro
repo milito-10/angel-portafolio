@@ -1,0 +1,92 @@
+---
+import FilmFrame from "../../components/FilmFrame.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import VideoFacade from "../../components/VideoFacade.astro";
+import WorkCard from "../../components/WorkCard.astro";
+import { categoryLabels, getPublishedWorks, getSiteSettings, getVideoEmbedUrl, getWhatsAppUrl } from "../../lib/content";
+
+export const getStaticPaths = async () => {
+  const works = await getPublishedWorks();
+  return works.map((work) => ({ params: { id: work.id }, props: { work } }));
+};
+
+const { work } = Astro.props;
+const [settings, works] = await Promise.all([getSiteSettings(), getPublishedWorks()]);
+const related = works.filter((item) => item.id !== work.id && item.data.category === work.data.category).slice(0, 3);
+const quoteUrl = getWhatsAppUrl(settings.whatsappNumber, `Hola Angel, me gustaría cotizar algo parecido a "${work.data.title}".`);
+const embedUrl = work.data.type === "video" ? getVideoEmbedUrl(work.data.videoUrl) : null;
+const formattedDate = new Intl.DateTimeFormat("es-CO", { year: "numeric", month: "long" }).format(new Date(`${work.data.date}T12:00:00`));
+---
+
+<SiteLayout title={work.data.title} description={work.data.description} active="trabajos" frame="02 / 021">
+  <article class="page-shell work-detail">
+    <div class="work-detail__top">
+      <div class="work-detail__copy">
+        <span class="eyebrow">{categoryLabels[work.data.category]}{work.data.sample ? " · Muestra de ejemplo" : ""}</span>
+        <h1 class="display-heading brush-heading">{work.data.title}</h1>
+        <p class="work-detail__description">{work.data.description}</p>
+        <dl class="work-meta">
+          <div>
+            <dt>Categoría</dt>
+            <dd>{categoryLabels[work.data.category]}</dd>
+          </div>
+          <div>
+            <dt>Cliente</dt>
+            <dd>{work.data.client || "Proyecto independiente"}</dd>
+          </div>
+          <div>
+            <dt>Fecha</dt>
+            <dd>{formattedDate}</dd>
+          </div>
+          <div>
+            <dt>Formato</dt>
+            <dd>{work.data.type === "video" ? "Video" : "Fotografía"}</dd>
+          </div>
+        </dl>
+        <p><a class="button button--red" href={quoteUrl} target="_blank" rel="noopener noreferrer">Quiero algo así</a></p>
+      </div>
+      {work.data.type === "video" ? (
+        <VideoFacade image={work.data.image} title={work.data.title} embedUrl={embedUrl} />
+      ) : (
+        <FilmFrame
+          class="detail-visual tape"
+          image={work.data.image}
+          alt={`Fotografía: ${work.data.title}`}
+          loading="eager"
+          sizes="(max-width: 800px) 100vw, 60vw"
+        />
+      )}
+    </div>
+
+    {related.length > 0 && (
+      <section class="section more-work" aria-labelledby="related-title">
+        <div class="section-heading">
+          <h2 id="related-title">Más trabajos de {categoryLabels[work.data.category]}</h2>
+          <a class="text-link" href="/trabajos/">Ver todos <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="work-grid">
+          {related.map((item) => <WorkCard work={item} />)}
+        </div>
+      </section>
+    )}
+  </article>
+  {work.data.type === "video" && (
+    <script>
+      for (const facade of document.querySelectorAll<HTMLElement>("[data-video-facade]")) {
+        const button = facade.querySelector<HTMLButtonElement>("button");
+        button?.addEventListener("click", () => {
+          const embed = facade.dataset.embed;
+          if (!embed) return;
+          const iframe = document.createElement("iframe");
+          iframe.src = `${embed}?autoplay=1`;
+          iframe.title = facade.querySelector<HTMLButtonElement>("button")?.ariaLabel ?? "Video del portafolio";
+          iframe.loading = "lazy";
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          iframe.allowFullscreen = true;
+          facade.replaceChildren(iframe);
+        });
+      }
+    </script>
+  )}
+</SiteLayout>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs><linearGradient id="a" x2="1" y2="1"><stop stop-color="#d08a50"/><stop offset=".4" stop-color="#69513f"/><stop offset="1" stop-color="#1a1b1b"/></linearGradient><radialGradient id="b"><stop stop-color="#ffd397" stop-opacity=".8"/><stop offset="1" stop-color="#f5b765" stop-opacity="0"/></radialGradient></defs>
+  <path fill="url(#a)" d="M0 0h1200v800H0z"/><path fill="url(#b)" d="M120 0h680v750H120z"/>
+  <path fill="#171414" d="M299 800q19-167 133-213 87-35 132 28 62 57 69 185z"/><ellipse cx="489" cy="355" rx="112" ry="156" fill="#50392d"/><path fill="#241b17" d="M372 345q14-171 142-171 115 20 100 169-45-39-105-87-60 58-137 89z"/>
+  <text x="54" y="748" fill="#f3d9b8" font-family="sans-serif" font-size="24" letter-spacing="8">MUESTRA · REEMPLAZAR</text>
+</svg>

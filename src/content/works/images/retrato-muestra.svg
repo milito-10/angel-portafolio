@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100">
+  <defs><linearGradient id="a" x2="1" y2="1"><stop stop-color="#bd6540"/><stop offset=".55" stop-color="#32221d"/><stop offset="1" stop-color="#121313"/></linearGradient><radialGradient id="b"><stop stop-color="#eda45f" stop-opacity=".9"/><stop offset="1" stop-color="#e67f43" stop-opacity="0"/></radialGradient></defs>
+  <path fill="url(#a)" d="M0 0h900v1100H0z"/><path fill="url(#b)" d="M0 100h700v800H0z"/>
+  <path fill="#171413" d="M94 1100q35-234 230-295 130-46 222 34 113 76 143 261z"/><ellipse cx="473" cy="439" rx="148" ry="205" fill="#49352c"/><path fill="#211915" d="M325 424q10-226 175-224 162 25 139 234-84-50-154-138-70 83-160 128z"/>
+  <text x="54" y="1040" fill="#f3d9b8" font-family="sans-serif" font-size="23" letter-spacing="6">RETRATO DE MUESTRA</text>
+</svg>

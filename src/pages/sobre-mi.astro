@@ -1,0 +1,67 @@
+---
+import FilmFrame from "../components/FilmFrame.astro";
+import FilmImage from "../components/FilmImage.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getPublishedWorks, getSiteSettings } from "../lib/content";
+
+const [settings, works] = await Promise.all([getSiteSettings(), getPublishedWorks()]);
+const stripWorks = [works[2], works[3], works[4]].filter(Boolean);
+---
+
+<SiteLayout title="Sobre mí" description="Conoce a Angel, fotógrafo y realizador audiovisual de Medellín." active="sobre-mi" frame="03 / 019">
+  <div class="page-shell">
+    <section class="about-layout">
+      <FilmFrame
+        class="about-layout__portrait tape"
+        image={settings.portrait}
+        alt="Retrato de muestra de Angel, pendiente de reemplazar"
+        loading="eager"
+        sizes="(max-width: 680px) 100vw, 40vw"
+        label="KODAK PORTRA 400"
+        number="52"
+      />
+      <div class="about-layout__copy">
+        <span class="eyebrow">Sobre mí</span>
+        <h1 class="display-heading brush-heading">Hola, soy Angel.</h1>
+        <p class="lead">{settings.bio}</p>
+        <div class="services" aria-label="Servicios">
+          <article class="service">
+            <span class="service__icon" aria-hidden="true">◉</span>
+            <h2>Fotografía</h2>
+            <p>Sesiones y eventos</p>
+          </article>
+          <article class="service">
+            <span class="service__icon" aria-hidden="true">▣</span>
+            <h2>Videoclips</h2>
+            <p>Para artistas y marcas</p>
+          </article>
+          <article class="service">
+            <span class="service__icon" aria-hidden="true">◎</span>
+            <h2>Retratos</h2>
+            <p>Personales y de marca</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="film-strip" aria-label="Tira de muestras fotográficas">
+      {stripWorks.map((work) => (
+        <div class="film-strip__cell">
+          <FilmImage image={work.data.image} alt={`Muestra: ${work.data.title}`} sizes="(max-width: 680px) 33vw, 30vw" />
+        </div>
+      ))}
+    </div>
+
+    <section class="idea-cta" aria-labelledby="about-cta-title">
+      <div class="idea-cta__visual" aria-hidden="true"></div>
+      <div class="idea-cta__copy">
+        <h2 class="brush-heading" id="about-cta-title">¿Tienes una idea?</h2>
+        <p>Cuéntame qué quieres crear y lo hacemos realidad.</p>
+        <div class="idea-cta__actions">
+          <a class="button button--red" href="/contacto/">Hablemos de tu proyecto</a>
+          <a class="text-link" href="/trabajos/">Ver trabajos</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</SiteLayout>

@@ -1,0 +1,22 @@
+---
+import FilmImage from "./FilmImage.astro";
+
+interface Props {
+  image: ImageMetadata;
+  title: string;
+  embedUrl: string | null;
+}
+
+const { image, title, embedUrl } = Astro.props;
+---
+
+<div class="video-facade film-frame" data-video-facade data-embed={embedUrl}>
+  <FilmImage image={image} alt={`Miniatura del video: ${title}`} loading="eager" sizes="(max-width: 800px) 100vw, 80vw" />
+  {embedUrl ? (
+    <button class="video-facade__play" type="button" aria-label={`Reproducir ${title}`}>
+      <span aria-hidden="true">▶</span>
+    </button>
+  ) : (
+    <p class="video-facade__error">Agrega un enlace válido de YouTube o Vimeo desde el administrador.</p>
+  )}
+</div>
