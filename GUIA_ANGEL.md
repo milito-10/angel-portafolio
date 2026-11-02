@@ -2,10 +2,12 @@
 
 ## Entrar al administrador
 
-1. Abre `https://TU-DOMINIO.netlify.app/admin/`.
-2. Inicia sesión con el correo al que llegó la invitación de Netlify y tu contraseña.
-3. Si no puedes entrar, pídele a quien administra el sitio que revise tu invitación en Netlify → **Identity**.
-4. En el menú vas a encontrar **Trabajos**, **Orden de trabajos**, **Marcas** y **Ajustes**.
+1. Confirma con quien administra el sitio que tu cuenta de GitHub fue agregada como colaboradora del repositorio `milito-10/angel-portafolio`.
+2. Abre la invitación que GitHub envió a tu cuenta y acéptala. Debes mantener acceso al repositorio para editar y publicar contenido.
+3. Entra a GitHub con esa misma cuenta y abre `https://TU-DOMINIO.netlify.app/admin/`. Si estás probando localmente, abre `http://127.0.0.1:4323/admin/`; la autorización usa el dominio Netlify del sitio, no `127.0.0.1`.
+4. Pulsa **Login with GitHub** y, si GitHub lo solicita, autoriza el acceso del sitio.
+5. En el menú vas a encontrar **Trabajos**, **Orden de trabajos**, **Marcas** y **Ajustes**.
+6. Si no puedes entrar, confirma que aceptaste la invitación y contacta a quien administra el repositorio. No compartas tu contraseña ni códigos de acceso.
 
 ## Publicar un trabajo con fotos
 

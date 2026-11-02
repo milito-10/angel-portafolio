@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Astro muestra la dirección local en la terminal. En local puedes revisar las páginas públicas; el panel `/admin/` requiere que el sitio esté desplegado en Netlify y que Git Gateway esté habilitado.
+Astro muestra la dirección local en la terminal. En local puedes revisar las páginas públicas y probar `/admin/`: la autorización OAuth se solicita para el sitio Netlify configurado y tu cuenta de GitHub debe tener acceso de colaborador al repositorio.
 
 ## Comprobaciones y build
 
@@ -32,12 +32,13 @@ Astro genera las páginas en `dist/`. Las imágenes fotográficas subidas desde 
 1. Sube este repositorio a GitHub.
 2. En Netlify, elige **Add new site → Import an existing project** y conecta el repositorio.
 3. Usa **Build command** `npm run build`, **Publish directory** `dist` y la versión de Node `22` (también está declarada en `netlify.toml`).
-4. Después de desplegar, ve a **Identity**, habilita Identity y configura el registro como **Invite only**.
-5. En Identity → **Services**, habilita **Git Gateway** para la rama `main`. Invita a Angel con su correo desde Identity → **Invite users**.
-6. Cuando Angel acepte la invitación, puede entrar a `https://TU-DOMINIO.netlify.app/admin/`. El CMS guarda el contenido en el repositorio; Netlify crea el deploy automáticamente.
-7. Cambia `site` en `astro.config.mjs` por el dominio definitivo para que canonical y SEO usen la URL correcta.
+4. En GitHub, abre `milito-10/angel-portafolio` → **Settings → Collaborators** y agrega la cuenta de GitHub de Angel. Angel debe aceptar la invitación al repositorio antes de entrar al CMS.
+5. Confirma que el proveedor OAuth de GitHub esté instalado y disponible en el sitio de Netlify conectado. La configuración de Decap usa ese proveedor para iniciar la autorización de GitHub.
+6. Angel inicia sesión en GitHub con la cuenta invitada, abre `https://TU-DOMINIO.netlify.app/admin/` y pulsa **Login with GitHub**. Luego autoriza el acceso solicitado por el sitio.
+7. El CMS guarda los cambios directamente en la rama `main`; Netlify inicia una nueva compilación y publicación automáticamente.
+8. Cambia `site` en `astro.config.mjs` por el dominio definitivo para que canonical y SEO usen la URL correcta.
 
-El panel usa Decap CMS 3.8.3 y el widget de Netlify Identity; sus orígenes y `unsafe-eval` (requerido por la validación de esquemas del CMS) están permitidos únicamente en `/admin/`. El resto del sitio mantiene una política de scripts same-origin sin `unsafe-eval`.
+El panel usa Decap CMS 3.8.3 con el backend de GitHub. `public/_headers` permite los orígenes necesarios para la API de GitHub, el proveedor OAuth de Netlify y las imágenes del repositorio solo en `/admin/`; `unsafe-eval` se mantiene limitado a ese panel por la validación de esquemas del CMS. El resto del sitio mantiene una política de scripts same-origin sin `unsafe-eval`.
 
 ## Contenido y CMS
 

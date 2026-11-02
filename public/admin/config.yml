@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: milito-10/angel-portafolio
   branch: main
+  base_url: https://api.netlify.com
+  site_domain: portafolio-de-contenidos.netlify.app
 
 publish_mode: editorial_workflow
 media_folder: src/content/works/images
