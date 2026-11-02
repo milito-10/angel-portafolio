@@ -4,8 +4,6 @@ backend:
   branch: main
   base_url: https://api.netlify.com
   site_domain: portafolio-de-contenidos.netlify.app
-
-publish_mode: editorial_workflow
 media_folder: src/content/works/images
 public_folder: ./images
 
@@ -13,6 +11,7 @@ collections:
   - name: trabajos
     label: Trabajos
     label_singular: Trabajo
+    delete: true
     folder: src/content/works
     path: "{{slug}}"
     create: true
@@ -43,6 +42,7 @@ collections:
 
   - name: ordenes
     label: Orden de trabajos
+    delete: false
     files:
       - name: galeria
         label: Orden de galería
@@ -81,6 +81,7 @@ collections:
 
   - name: marcas
     label: Marcas
+    delete: false
     files:
       - name: marcas
         label: Marcas con las que he trabajado
@@ -98,6 +99,7 @@ collections:
 
   - name: ajustes
     label: Ajustes
+    delete: false
     files:
       - name: sitio
         label: Textos y datos de contacto

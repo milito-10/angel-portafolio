@@ -38,7 +38,7 @@ Astro genera las páginas en `dist/`. Las imágenes fotográficas subidas desde 
 7. El CMS guarda los cambios directamente en la rama `main`; Netlify inicia una nueva compilación y publicación automáticamente.
 8. Cambia `site` en `astro.config.mjs` por el dominio definitivo para que canonical y SEO usen la URL correcta.
 
-El panel usa Decap CMS 3.8.3 con el backend de GitHub. `public/_headers` permite los orígenes necesarios para la API de GitHub, el proveedor OAuth de Netlify y las imágenes del repositorio solo en `/admin/`; `unsafe-eval` se mantiene limitado a ese panel por la validación de esquemas del CMS. El resto del sitio mantiene una política de scripts same-origin sin `unsafe-eval`.
+El panel usa Decap CMS 3.8.3 con el backend de GitHub y guarda directamente en `main`. `public/_headers` permite los orígenes necesarios para GitHub, Netlify OAuth y Decap solo en `/admin/`, incluyendo las directivas inline requeridas por el preview iframe; el resto del sitio mantiene una política de scripts same-origin sin `unsafe-inline` ni `unsafe-eval`.
 
 ## Contenido y CMS
 

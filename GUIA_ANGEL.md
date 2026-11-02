@@ -9,26 +9,27 @@
 5. En el menú vas a encontrar **Trabajos**, **Orden de trabajos**, **Marcas** y **Ajustes**.
 6. Si no puedes entrar, confirma que aceptaste la invitación y contacta a quien administra el repositorio. No compartas tu contraseña ni códigos de acceso.
 
-## Publicar un trabajo con fotos
+## Crear o editar un trabajo con fotos
 
 1. Entra a **Trabajos** y pulsa **Nuevo trabajo**.
 2. Escribe el título, escoge la categoría y deja **Tipo** en `foto`.
-3. Sube una imagen horizontal o vertical en **Imagen o miniatura**. No hace falta reducirla antes: al publicar, el sitio crea versiones livianas para celular y computador.
+3. En **Imagen o miniatura**, elige **Subir** para cargar una imagen desde tu computador o selecciona una ya guardada en la biblioteca. Las imágenes de trabajos se guardan en `src/content/works/images`.
 4. Completa la descripción, el cliente si aplica y la fecha. Activa **Publicado** para que aparezca en la web.
 5. Deja **Muestra de ejemplo** apagado cuando sea un trabajo real.
-6. Pulsa **Guardar** y luego **Publicar**. El sitio se actualiza al terminar el deploy de Netlify, normalmente en uno o dos minutos.
+6. Pulsa **Guardar**. El cambio se confirma directamente en la rama `main` de GitHub y Netlify inicia el deploy automáticamente; no hay un paso separado de **Publicar**.
+7. Para editar o eliminar un trabajo, ábrelo desde **Trabajos** y usa la opción correspondiente. Eliminar confirma un cambio permanente en GitHub. Las referencias a trabajos eliminados se omiten de la galería y los destacados.
 
 ## Agregar un videoclip
 
 1. Crea un trabajo como en los pasos anteriores y cambia **Tipo** a `video`.
-2. Pega el enlace de YouTube o Vimeo en **Enlace del video** y sube su miniatura en **Imagen o miniatura**.
-3. Guarda y publica. El video no se sube al sitio: solo se carga cuando alguien pulsa reproducir.
+2. Pega el enlace de YouTube o Vimeo en **Enlace del video** y sube su miniatura desde tu computador en **Imagen o miniatura**.
+3. Guarda. El cambio se confirma directamente en `main` y Netlify inicia el deploy. El video no se sube al sitio: solo se carga cuando alguien pulsa reproducir.
 
 ## Cambiar el orden de la galería
 
 1. Abre **Orden de trabajos → Orden de galería**.
 2. Arrastra los trabajos para ordenarlos. Usa **Agregar** para sumar uno publicado.
-3. Guarda y publica los cambios.
+3. Guarda los cambios para confirmarlos directamente en `main`.
 
 Los trabajos publicados que no estén en esta lista aparecen al final, ordenados por fecha. Los trabajos en borrador o con **Publicado** apagado no se muestran.
 
@@ -36,24 +37,31 @@ Los trabajos publicados que no estén en esta lista aparecen al final, ordenados
 
 1. Abre **Orden de trabajos → Trabajos destacados**.
 2. Agrega los trabajos que quieras mostrar y arrástralos para definir el orden. La página de Inicio muestra hasta los que selecciones.
-3. Guarda y publica. El primer destacado también se usa como imagen principal.
+3. Guarda los cambios para confirmarlos directamente en `main`. El primer destacado también se usa como imagen principal.
 
 ## Agregar o cambiar marcas
 
 1. Entra a **Marcas con las que he trabajado**.
-2. Agrega el nombre, sube el logo y, si quieres, escribe el enlace público de la marca.
-3. Arrastra las marcas para cambiar su orden; guarda y publica. Si la lista queda vacía, la franja no aparece en Inicio.
+2. Agrega el nombre, sube el logo desde tu computador y, si quieres, escribe el enlace público de la marca. Los logos y el retrato de Ajustes se guardan en `src/content/data/images`.
+3. Arrastra las marcas para cambiar su orden y guarda. Si la lista queda vacía, la franja no aparece en Inicio.
 
 ## Cambiar datos y textos
 
 1. Abre **Ajustes → Textos y datos de contacto**.
 2. Escribe el WhatsApp con código de país y número, solo los dígitos (por ejemplo, `573001234567`), y pega el enlace completo de Instagram.
 3. Actualiza el título y subtítulo de Inicio, la biografía y el retrato. El retrato debe ser una imagen, no un video.
-4. Guarda y publica. Usa enlaces `https://` para redes.
+4. Guarda. Usa enlaces `https://` para redes.
+
+## Eliminar una imagen de la biblioteca
+
+1. Abre la biblioteca de medios desde un campo de imagen.
+2. Selecciona la imagen que quieras quitar y usa la opción para eliminarla.
+3. Antes de confirmar, comprueba que ningún trabajo, logo o retrato todavía la use. La eliminación se guarda en GitHub y puede dejar una imagen rota si otro contenido la referencia.
 
 ## Recomendaciones
 
 - No subas archivos de video; usa YouTube o Vimeo.
 - Reemplaza los trabajos y retratos identificados como **MUESTRA** antes de anunciar el sitio.
+- Cada acción de guardar o eliminar se confirma en GitHub y dispara un deploy de Netlify; revisa el resultado cuando finalice.
 - Revisa el deploy en Netlify si un cambio no aparece después de unos minutos.
 - Para dudas de acceso o publicación, contacta a quien administra el sitio; no compartas tu contraseña.
