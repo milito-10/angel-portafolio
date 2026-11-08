@@ -1,0 +1,26 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getSiteSettings, getWhatsAppUrl } from "../lib/content";
+
+const settings = await getSiteSettings();
+const deletionUrl = getWhatsAppUrl(settings.whatsappNumber, "Hola, quiero solicitar la eliminación de mis datos personales.");
+---
+
+<SiteLayout title="Política de privacidad" description="Conoce cómo se usan los datos enviados mediante el formulario de contacto de Angel." frame="04 / 038">
+  <section class="page-shell page-intro privacy-page" aria-labelledby="privacy-title">
+    <div>
+      <span class="eyebrow">Tus datos, con cuidado</span>
+      <h1 class="display-heading brush-heading" id="privacy-title">Política de privacidad</h1>
+      <div class="privacy-copy">
+        <p>En cumplimiento de la Ley 1581 de 2012, Angel es responsable del tratamiento de los datos personales que compartes en el formulario. Netlify, como proveedor de alojamiento y procesamiento de formularios, los recibe y almacena para que Angel pueda gestionar tu mensaje.</p>
+        <h2>¿Qué datos recopilamos?</h2>
+        <p>Tu nombre, WhatsApp o correo, el tipo de servicio que necesitas y el mensaje que nos envías.</p>
+        <h2>¿Para qué se usan?</h2>
+        <p>Únicamente para leer y responder tu solicitud de contacto. No usamos estos datos para otros fines ni para enviarte publicidad.</p>
+        <h2>¿Cómo solicito su eliminación?</h2>
+        <p>Puedes pedir acceso, corrección o eliminación de tus datos escribiéndonos por <a href={deletionUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a> o mediante el <a href="/contacto/">formulario de contacto</a>.</p>
+      </div>
+      <a class="button button--red" href="/contacto/"><span class="button__label">Volver a contacto</span></a>
+    </div>
+  </section>
+</SiteLayout>

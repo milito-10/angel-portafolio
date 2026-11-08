@@ -31,10 +31,9 @@ body {
   margin: 0;
   overflow-x: hidden;
   background:
-    url("/charcoal-texture.png") left top / 512px 512px repeat,
     url("/film-edge.svg") left top / 28px 480px repeat-y,
-    radial-gradient(ellipse at center, transparent 54%, rgba(0, 0, 0, 0.32) 100%);
-  background-blend-mode: soft-light, normal, normal;
+    radial-gradient(ellipse at center, transparent 54%, rgba(0, 0, 0, 0.32) 100%),
+    url("/charcoal-texture-small.webp") left top / 256px 256px repeat;
   background-color: var(--ink);
   color: var(--paper);
   font-family: var(--body);
@@ -91,12 +90,6 @@ img {
   clip-path: inset(50%);
 }
 
-@property --intro-iris-radius {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
 html.intro-pending {
   overflow: hidden;
 }
@@ -124,15 +117,7 @@ html.intro-pending .cinematic-intro {
   background:
     radial-gradient(ellipse at 50% 46%, rgba(35, 29, 22, 0.96), transparent 44%),
     #070707;
-  animation: intro-iris-open 2300ms cubic-bezier(0.7, 0, 0.25, 1) forwards;
-  -webkit-mask-image: radial-gradient(circle at center, transparent 0, transparent var(--intro-iris-radius), #000 calc(var(--intro-iris-radius) + 1px));
-  mask-image: radial-gradient(circle at center, transparent 0, transparent var(--intro-iris-radius), #000 calc(var(--intro-iris-radius) + 1px));
-}
-
-@supports not (mask-image: radial-gradient(circle, transparent 0, #000 1px)) {
-  .cinematic-intro__veil {
-    animation: intro-veil-fade 2300ms ease forwards;
-  }
+  animation: intro-veil-fade 1100ms ease forwards;
 }
 
 .cinematic-intro__flicker {
@@ -143,22 +128,10 @@ html.intro-pending .cinematic-intro {
     radial-gradient(ellipse at 12% 50%, rgba(236, 100, 42, 0.27), transparent 34%),
     radial-gradient(ellipse at 91% 52%, rgba(205, 48, 34, 0.17), transparent 30%),
     radial-gradient(ellipse at 50% 48%, rgba(238, 210, 165, 0.12), transparent 24%);
-  mix-blend-mode: screen;
   opacity: 0;
   pointer-events: none;
   animation: intro-projector-flicker 680ms steps(2, end) 2;
   transition: opacity 300ms ease;
-}
-
-.cinematic-intro::after {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  background: url("/charcoal-texture.png") left top / 512px 512px repeat;
-  content: "";
-  mix-blend-mode: screen;
-  opacity: 0.08;
-  pointer-events: none;
 }
 
 .cinematic-intro__content {
@@ -187,7 +160,6 @@ html.intro-pending .cinematic-intro {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  filter: drop-shadow(0 0 24px rgba(232, 48, 47, 0.24));
 }
 
 .cinematic-intro__name {
@@ -237,8 +209,7 @@ html.intro-closing .cinematic-intro__veil {
 }
 
 html.intro-closing .cinematic-intro__content,
-html.intro-closing .cinematic-intro__flicker,
-html.intro-closing .cinematic-intro::after {
+html.intro-closing .cinematic-intro__flicker {
   opacity: 0;
   transform: scale(1.04);
   transition: opacity 280ms ease, transform 280ms ease;
@@ -248,15 +219,9 @@ html.intro-closing .cinematic-intro::after {
   animation: hero-film-arrive 520ms ease-out both;
 }
 
-@keyframes intro-iris-open {
-  to {
-    --intro-iris-radius: 140vmax;
-  }
-}
-
 @keyframes intro-veil-fade {
-  0%, 78% { opacity: 1; }
-  100% { opacity: 0; }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes intro-projector-flicker {
@@ -552,7 +517,6 @@ main {
   background: linear-gradient(135deg, #33251e, #182024);
 }
 
-.film-image__blur,
 .film-image__main {
   position: absolute;
   inset: 0;
@@ -560,30 +524,14 @@ main {
   height: 100%;
 }
 
-.film-image__blur {
-  filter: blur(16px);
-  object-fit: cover;
-  transform: scale(1.08);
-  transition: opacity 240ms ease;
-}
-
 .film-image__main {
-  opacity: 0;
-  transition: opacity 240ms ease, transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 220ms ease;
+  transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 220ms ease;
 }
 
 .film-image__main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.film-image.is-loaded .film-image__main {
-  opacity: 1;
-}
-
-.film-image.is-loaded .film-image__blur {
-  opacity: 0;
 }
 
 .work-card:hover .work-card__image .film-image__main {
@@ -740,7 +688,6 @@ main {
   background: rgba(191, 166, 119, 0.38);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   content: "";
-  backdrop-filter: blur(1px);
 }
 
 .tape::before {
@@ -1349,6 +1296,59 @@ main {
   clip-path: inset(50%);
 }
 
+.privacy-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--paper-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.privacy-consent input {
+  width: 17px;
+  min-width: 17px;
+  min-height: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--red-bright);
+}
+
+.privacy-consent a,
+.privacy-copy a {
+  color: var(--paper-highlight);
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
+  text-underline-offset: 3px;
+}
+
+.privacy-copy {
+  max-width: 720px;
+  margin: 28px 0;
+}
+
+.privacy-copy h2 {
+  margin: 24px 0 6px;
+  color: var(--paper-highlight);
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.privacy-copy p {
+  margin: 0;
+  color: var(--paper-muted);
+}
+
+.not-found {
+  min-height: 56vh;
+  align-items: center;
+}
+
 .contact-side {
   display: flex;
   flex-direction: column;
@@ -1484,7 +1484,12 @@ main {
 @media (max-width: 680px) {
   body {
     font-size: 15px;
-    background-size: 512px 512px, 24px 360px, 100% 100%;
+    background-size: 24px 360px, 100% 100%, 256px 256px;
+  }
+
+  .site-header {
+    background: rgba(19, 20, 22, 0.98);
+    backdrop-filter: none;
   }
 
   .cinematic-intro__aperture {

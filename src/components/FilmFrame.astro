@@ -9,6 +9,7 @@ interface Props {
   label?: string;
   number?: string;
   loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
   sizes?: string;
 }
 
@@ -19,13 +20,14 @@ const {
   label = "KODAK 400",
   number = "52",
   loading = "lazy",
+  fetchpriority,
   sizes,
 } = Astro.props;
 ---
 
 <figure class:list={["film-frame", className]}>
   <div class="film-frame__image">
-    <FilmImage image={image} alt={alt} loading={loading} sizes={sizes} />
+    <FilmImage image={image} alt={alt} loading={loading} fetchpriority={fetchpriority} sizes={sizes} />
   </div>
   <span class="film-frame__label" aria-hidden="true">{label}</span>
   <span class="film-frame__number" aria-hidden="true">{number}</span>

@@ -1,4 +1,5 @@
 ---
+import { Picture } from "astro:assets";
 import FilmFrame from "../components/FilmFrame.astro";
 import WorkCard from "../components/WorkCard.astro";
 import SiteLayout from "../layouts/SiteLayout.astro";
@@ -45,7 +46,8 @@ const heroTitleStart = titleParts.join(" ");
             image={heroWork.data.image}
             alt={`Muestra de fotografía: ${heroWork.data.title}`}
             loading="eager"
-            sizes="(max-width: 680px) 100vw, 55vw"
+            fetchpriority="high"
+            sizes="(max-width: 680px) calc(100vw - 36px), (max-width: 1244px) 50vw, 590px"
           />
           <div class="hero__caption">
             <span>Último trabajo — {heroWork.data.title}</span>
@@ -63,7 +65,7 @@ const heroTitleStart = titleParts.join(" ");
         <a class="text-link" href="/trabajos/">Ver todos <span aria-hidden="true">→</span></a>
       </div>
       <div class="work-grid">
-        {featured.length ? featured.map((work) => <WorkCard work={work} featured />) : (
+        {featured.length ? featured.map((work, index) => <WorkCard work={work} featured loading={index === 0 ? "eager" : "lazy"} />) : (
           <p class="empty-state">Pronto vas a encontrar aquí una selección de trabajos.</p>
         )}
       </div>
@@ -76,7 +78,20 @@ const heroTitleStart = titleParts.join(" ");
         </div>
         <div class="brands__list">
           {brands.map((brand) => {
-            const content = <img class="brand-logo" src={brand.logo.src} alt={brand.name} width={brand.logo.width} height={brand.logo.height} loading="lazy" decoding="async" />;
+            const candidateWidths = [120, 240, 360].filter((width) => width < brand.logo.width);
+            const logoWidths = [...candidateWidths, Math.min(360, brand.logo.width)];
+            const content = (
+              <Picture
+                class="brand-logo"
+                src={brand.logo}
+                alt={brand.name}
+                widths={logoWidths}
+                sizes="(max-width: 680px) 120px, 150px"
+                formats={["avif", "webp"]}
+                loading="lazy"
+                decoding="async"
+              />
+            );
             const safeLink = safeExternalUrl(brand.link);
             return safeLink
               ? <a href={safeLink} target="_blank" rel="noopener noreferrer" aria-label={brand.name}>{content}</a>

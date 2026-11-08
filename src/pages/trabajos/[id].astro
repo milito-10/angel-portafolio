@@ -53,6 +53,7 @@ const formattedDate = new Intl.DateTimeFormat("es-CO", { year: "numeric", month:
           image={work.data.image}
           alt={`Fotografía: ${work.data.title}`}
           loading="eager"
+          fetchpriority="high"
           sizes="(max-width: 800px) 100vw, 60vw"
         />
       )}

@@ -31,7 +31,7 @@ const filters = [
       ))}
     </div>
     <section class="work-grid gallery-grid" aria-label="Galería de trabajos" aria-live="polite">
-      {works.length ? works.map((work, index) => <WorkCard work={work} loading={index < 4 ? "eager" : "lazy"} />) : (
+      {works.length ? works.map((work, index) => <WorkCard work={work} loading={index < 2 ? "eager" : "lazy"} />) : (
         <p class="empty-state">Todavía no hay trabajos publicados.</p>
       )}
     </section>

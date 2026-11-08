@@ -10,6 +10,8 @@ Portafolio estático en Astro para Angel, fotógrafo y realizador audiovisual de
 
 ## Desarrollo local
 
+Antes de trabajar localmente, ejecuta `git pull` para traer los cambios más recientes del repositorio.
+
 ```bash
 npm install
 npm run dev
@@ -34,11 +36,11 @@ Astro genera las páginas en `dist/`. Las imágenes fotográficas subidas desde 
 3. Usa **Build command** `npm run build`, **Publish directory** `dist` y la versión de Node `22` (también está declarada en `netlify.toml`).
 4. En GitHub, abre `milito-10/angel-portafolio` → **Settings → Collaborators** y agrega la cuenta de GitHub de Angel. Angel debe aceptar la invitación al repositorio antes de entrar al CMS.
 5. Confirma que el proveedor OAuth de GitHub esté instalado y disponible en el sitio de Netlify conectado. La configuración de Decap usa ese proveedor para iniciar la autorización de GitHub.
-6. Angel inicia sesión en GitHub con la cuenta invitada, abre `https://TU-DOMINIO.netlify.app/admin/` y pulsa **Login with GitHub**. Luego autoriza el acceso solicitado por el sitio.
+6. Angel inicia sesión en GitHub con la cuenta invitada, abre `https://portafolio-de-contenidos.netlify.app/admin/` y pulsa **Login with GitHub**. Luego autoriza el acceso solicitado por el sitio.
 7. El CMS guarda los cambios directamente en la rama `main`; Netlify inicia una nueva compilación y publicación automáticamente.
-8. Cambia `site` en `astro.config.mjs` por el dominio definitivo para que canonical y SEO usen la URL correcta.
+8. El dominio está definido en `site` de `astro.config.mjs`. Si se compra un dominio propio, cámbialo ahí.
 
-El panel usa Decap CMS 3.8.3 con el backend de GitHub y guarda directamente en `main`. `public/_headers` permite los orígenes necesarios para GitHub, Netlify OAuth y Decap solo en `/admin/`, incluyendo las directivas inline requeridas por el preview iframe; el resto del sitio mantiene una política de scripts same-origin sin `unsafe-inline` ni `unsafe-eval`.
+El panel usa Decap CMS 3.8.3 con el backend de GitHub. `public/_headers` permite los orígenes necesarios para GitHub, Netlify OAuth y Decap solo en `/admin/`, incluyendo las directivas inline requeridas por el preview iframe; el resto del sitio mantiene una política de scripts same-origin sin `unsafe-inline` ni `unsafe-eval`.
 
 ## Contenido y CMS
 
@@ -49,11 +51,13 @@ El panel usa Decap CMS 3.8.3 con el backend de GitHub y guarda directamente en `
 - `src/content/data/brands.json`: logos; la franja se oculta cuando no hay marcas.
 - `src/content/data/site-settings.json`: textos principales, enlaces y retrato.
 
-Marca las imágenes de ejemplo para reemplazarlas antes del lanzamiento. No subas archivos de video: usa enlaces de YouTube o Vimeo; se cargan en una fachada ligera solo al pulsar reproducir.
+Reemplaza las imágenes de ejemplo (SVG) por fotos reales antes del lanzamiento. No subas archivos de video: usa enlaces de YouTube o Vimeo; se cargan en una fachada ligera solo al pulsar reproducir.
 
 ## Formularios y seguridad
 
 El formulario de contacto usa Netlify Forms y un honeypot. Asegúrate de que **Forms** esté habilitado en el sitio de Netlify para recibir los mensajes. `public/_headers` establece CSP, HSTS, protección contra MIME sniffing, política de referer, permisos de navegador y restricción de iframes externos.
+
+Para recibir los mensajes por correo, en Netlify ve a Forms → Form notifications → Add notification → Email notification y escribe el correo de Angel.
 
 Para comprobar dependencias:
 
@@ -63,21 +67,11 @@ npm audit
 
 ## Enviar el proyecto a GitHub
 
-Si todavía no inicializaste el repositorio, reemplaza la URL de ejemplo por la del repositorio creado en GitHub:
+Para publicar cambios en el repositorio existente:
 
 ```bash
-git init
+git pull
 git add .
-git commit -m "Construye el portafolio de Angel"
-git branch -M main
-git remote add origin https://github.com/TU-USUARIO/TU-REPOSITORIO.git
-git push -u origin main
-```
-
-Para publicar cambios después:
-
-```bash
-git add .
-git commit -m "Actualiza el portafolio"
+git commit -m "mensaje"
 git push
 ```

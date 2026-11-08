@@ -1,11 +1,10 @@
 ---
-import "@fontsource/oswald/400.css";
-import "@fontsource/oswald/500.css";
-import "@fontsource/oswald/600.css";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import oswaldMediumFont from "@fontsource/oswald/files/oswald-latin-500-normal.woff2";
+import "@fontsource/oswald/latin-400.css";
+import "@fontsource/oswald/latin-500.css";
+import "@fontsource/oswald/latin-600.css";
+import "@fontsource/inter/latin-400.css";
+import "@fontsource/inter/latin-500.css";
+import "@fontsource/inter/latin-600.css";
 import oswaldSemiboldFont from "@fontsource/oswald/files/oswald-latin-600-normal.woff2";
 import interRegularFont from "@fontsource/inter/files/inter-latin-400-normal.woff2";
 import "../styles/global.css";
@@ -19,6 +18,7 @@ interface Props {
 
 const { title, description = "Fotografía, retratos y videoclips hechos en Medellín, Colombia.", active, frame = "01 / 024" } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const socialImage = new URL("/og-image.png", Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -34,8 +34,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={`${title} · ANGEL`} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} · ANGEL`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
     {active === "inicio" && (
       <>
         <script is:inline>
@@ -69,7 +75,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
         </style>
       </>
     )}
-    <link rel="preload" href={oswaldMediumFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={oswaldSemiboldFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interRegularFont} as="font" type="font/woff2" crossorigin />
     <title>{title} · ANGEL | Fotografía y video en Medellín</title>
@@ -87,7 +92,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
         <div class="cinematic-intro__flicker" aria-hidden="true"></div>
         <div class="cinematic-intro__content">
           <div class="cinematic-intro__aperture" aria-hidden="true">
-            <img src="/icon-192.png" width="96" height="96" alt="" />
+            <img src="/intro-icon.webp" width="96" height="96" alt="" />
           </div>
           <p class="cinematic-intro__name" id="cinematic-intro-title">ANGEL.</p>
           <p class="cinematic-intro__frame">ROLL 01 <span aria-hidden="true">·</span> FRAME 001</p>
@@ -171,7 +176,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
             skipButton.focus();
           }
         };
-        const introTimeout = window.setTimeout(finishIntro, 2200);
+        const introTimeout = window.setTimeout(finishIntro, 1100);
 
         skipButton?.addEventListener("click", finishIntro);
         intro.addEventListener("click", finishIntro);
