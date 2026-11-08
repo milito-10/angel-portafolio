@@ -43,37 +43,7 @@ const socialImage = new URL("/og-image.png", Astro.site ?? Astro.url.origin);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     {active === "inicio" && (
-      <>
-        <script is:inline>
-          if (window.location.pathname === "/" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            try {
-              if (!window.sessionStorage.getItem("angel-intro-seen")) {
-                window.sessionStorage.setItem("angel-intro-seen", "true");
-                document.documentElement.classList.add("intro-pending");
-              }
-            } catch (error) {
-              console.error("No se pudo comprobar el estado de la introducción cinematográfica.", error);
-            }
-          }
-        </script>
-        <style is:inline>
-          html.intro-pending {
-            overflow: hidden;
-          }
-
-          .cinematic-intro {
-            position: fixed;
-            z-index: 100;
-            inset: 0;
-            display: none;
-            background: #070707;
-          }
-
-          html.intro-pending .cinematic-intro {
-            display: grid;
-          }
-        </style>
-      </>
+      <script src="../scripts/intro.ts"></script>
     )}
     <link rel="preload" href={oswaldSemiboldFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interRegularFont} as="font" type="font/woff2" crossorigin />
