@@ -1,5 +1,5 @@
 ---
-title: Cristiano Ronaldo
+title: cr7
 category: fotografia
 type: foto
 image: images/imagen-mobiplab-15-oct-9-.png
